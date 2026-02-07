@@ -7,19 +7,30 @@ A high-performance REST API built using **FastAPI**, designed for scalability, s
 - Uvicorn  
 - Pydantic
 
-  ## Concepts learned
-
--Restful API Endpoints
+## Concepts learned
+- RESTful API endpoints
 -CRUD Operation
 
-  ## Dataset used
-Patient dataset(patient.json) is used which includes:
--P_ID
--Name
--City
--AGE
--Gender
--Height
--Weight
--BMI
--Verdict
+## Dataset Used: Patient Data (`patient.json`)
+
+This project uses a patient dataset stored in **`patient.json`**.  
+It contains the following fields:
+
+- **P_ID** – Unique patient ID  
+- **Name** – Patient name  
+- **City** – City of residence  
+- **Age** – Patient age  
+- **Gender** – Male/Female  
+- **Height** – Height of the patient  
+- **Weight** – Weight of the patient  
+- **BMI** – Body Mass Index  
+- **Verdict** – Health status based on BMI
+
+
+## How to Run Locally
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+pip install -r requirements.txt
+uvicorn main:app --reload
