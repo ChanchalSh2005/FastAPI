@@ -9,13 +9,18 @@ class Patient(BaseModel):
    # linkedin_url:AnyUrl
     age:int
     height:float
-    weight:float=Field(gt=0,strict=True)  #strict prohibiting type conversion 
+    weight:float=Field(gt=0,strict=True)  #strict prohibiting type conversion ---strict=True disables type coercion and enforces exact data types.
     #married=bool=False       #setting default value
     allergies:Optional[List[str]]=None    #keeping optional field
     contact_details:Optional[Dict[str,str]]
    
+# What does @computed_field + @property mean?
+# It creates a read-only field that is:
+# Not stored
+# Calculated dynamically
+# Included in .model_dump() and schema
     @computed_field
-    @property
+    @property                   #Makes it accessible like attribute
     def calculate_bmi(self)->float:
         bmi =round(self.weight/(self.height*self.height),2)
 

@@ -1,5 +1,5 @@
 #type validation
-
+# @classmethod binds the method to the class and passes cls instead of self, used when instance is not yet created.
 from pydantic import BaseModel,EmailStr,AnyUrl,Field,field_validator,model_validator
 from typing import List,Dict,Optional,Annotated
 #Field is used for constraint on data type like length,gt,lt 
@@ -11,9 +11,18 @@ class Patient(BaseModel):
     age:int
     weight:float=Field(gt=0,strict=True)  #strict prohibiting type conversion 
     #married=bool=False       #setting default value
-    allergies:Optional[List[str]]=None    #keeping optional field
-    contact_details:Optional[Dict[str,str]]
-    
+    allergies:Optional[List[str]]=None    #optional field is indicating that user may or may not give data for it 
+    contact_details:Optional[Dict[str,str]]   #same for it and dict is bound to have key and values of string type
+    #--------------------------------------------------------------------
+# INPUT DICT
+#    ↓   (mode="before") → gets dict
+# FIELD VALIDATION
+#    ↓
+# MODEL OBJECT
+#    ↓   (mode="after") → gets self
+# FINAL RESULT
+
+
     @model_validator(mode='after')
     def validate_emergency_contact(cls,model):
         if model.age>60 and 'emergency' not in model.contact_details:
