@@ -59,3 +59,5 @@ def insert_patient_data(patient:Patient):
 patient_info={'name':'chanchal','email':'abc123@hdfc.com','age':123,'weight':89.0,'allergies':['hair','skin'],'contact_details':{'emails':'abc123@gmail.com','mob_no':'+91XXXXXXX'} }
 patient1=Patient(**patient_info) #validation->type coersion
 insert_patient_data(patient1)
+
+
