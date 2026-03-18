@@ -9,7 +9,7 @@
 from fastapi import FastAPI,HTTPException,Path,Query
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel,Field,field_validator,computed_field
-from typing import Annotated,Literal             #lietral is used to give options
+from typing import Annotated,Literal,Optional           #lietral is used to give options
 import os
 import json
 app=FastAPI()
@@ -34,6 +34,14 @@ class Patient(BaseModel):
     def verdict(self)->str:
         if self.bmi<18.4:
             return "Underweight"
+class Patient_update(BaseModel):
+    
+    name:Annotated[Optional[str],Field(default=None)]
+    city:Annotated[Optional[str],Field(default=None)]
+    age:Optional[int]
+    gender:Annotated[Optional[Literal['male','female','other']],Field(default=None)]
+    height:Optional[float]
+    weight:Optional[float]
          
 def load_data():
     if not os.path.exists('patients.json'):
@@ -67,6 +75,15 @@ def create_patient(patient:Patient): #patient --->pydantic object
 
      #3new patient add to the database
     save_data(data)
-    return JSONResponse(status_code=201,content:'Patient info inserted successfully!!!')
+    return JSONResponse(status_code=201,content='Patient info inserted successfully!!!')
 
 
+@app.put('/update/{patient_id}')
+def update(patient_id:str,patient:Patient_update):
+    data=load_data()
+    if patient_id not in data:
+        raise HTTPException(status=404,detail="Patient not found")
+    patient_info=data[patient_id]
+    patient.model_dump(exclude_unset=True)  #here we are exclude_usnset true to remove undefined fields
+    for key in patient:
+        Patient_update[patient_id]
